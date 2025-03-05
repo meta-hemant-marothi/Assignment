@@ -1,7 +1,7 @@
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.ArrayList;
 
 public class shopping{
     public static void main(String[] args){
@@ -82,6 +82,8 @@ public class shopping{
                     break;
                 default: System.out.println("Choose Correct option.");
             }
+            System.out.print("\033[H\033[2J"); 
+            System.out.flush(); 
     
         }
     }
