@@ -79,8 +79,7 @@ public class shopping{
                     break;
                 
                 case 5:
-                    shop.displayQty();
-                    System.out.println("Total Bill for above items: " + shop.displayBill());
+                    System.out.println("Total Bill for above items: " + shop.displayBill() + "\n\n");
                     break;
 
                 case 6:
