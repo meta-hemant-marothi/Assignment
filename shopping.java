@@ -96,7 +96,7 @@ class shoppingCart{
     
     public void addToCart(Item item, Integer quantity){
         cart.put(item, quantity);
-        System.out.println(item.getName() + "added to cart");
+        System.out.println(item.getName() + " added to cart\n\n");
     }
 
     public void displayQty(){
@@ -111,7 +111,7 @@ class shoppingCart{
             System.out.println("--> Items Updated Successfully");
         }else{
             cart.remove(item);
-            System.out.println("--> Insufficient Items To Update. Item Removed");
+            System.out.println("--> Insufficient Items To Update. Item Removed\n\n");
         }
     }
 
