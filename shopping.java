@@ -31,6 +31,8 @@ public class shopping{
         int id, quant;
         Scanner sc = new Scanner(System.in);
         ArrayList<Item> items = new ArrayList<>();
+
+        // Items created in memory
         items.add(new Item("Honda", "Bike", 100.0));
         items.add(new Item("Dairymilk", "toffee", 10.2));
         items.add(new Item("Milk", "Source of Calcium", 40.0));
@@ -41,13 +43,17 @@ public class shopping{
         items.add(new Item("Crispello", "toffee", 10.2));
         items.add(new Item("Dahi", "Source of Calcium", 40.0));
 
+        //A cart object for the customer
         shoppingCart shop = new shoppingCart();
         boolean flag = true;
+
+        // Will run until exited by customer
         while(flag){
             operationsMenu();
             System.out.print("Enter Your Choice Number: ");
             int choice = sc.nextInt();
 
+            // According to the customers choice, operations will be performed
             switch(choice){
                 case 1: 
                     itemsMenu(items);
@@ -96,7 +102,11 @@ public class shopping{
 class shoppingCart{
     private Map<Item, Integer> cart = new HashMap<>();
     
+    /** 
+       Adds the item with provided quantity. Confirms if item is added or warns if item already in cart.   
+    */
     public void addToCart(Item item, Integer quantity){
+        
         if(cart.containsKey(item)){
             System.out.println("--> Item already in Cart. Please Use Update Quantity Option");
             return;
@@ -105,6 +115,10 @@ class shoppingCart{
         System.out.println("--> " + item.getName() + " added to cart\n\n");
     }
 
+
+    /** 
+       Displays the item and its corresponding quantity added in the cart.
+    */
     public void displayQty(){
         if(cart.isEmpty()){
             System.out.println("--> Your Cart is Empty\n\n");
@@ -118,6 +132,10 @@ class shoppingCart{
         System.out.println("\n\n");
     }
 
+
+    /** 
+       Updates the quantity of item in the cart by increasing or decreasing the amount.
+    */
     public void updateQty(Item item,Integer quantity){
         if(cart.getOrDefault(item, 0) + quantity >= 0){
             cart.put(item, cart.getOrDefault(item, 0) + quantity);
@@ -128,6 +146,9 @@ class shoppingCart{
         }
     }
 
+    /** 
+       Deletes the provided item if present in cart.
+    */
     public void deleteItem(Item item){
         if(cart.containsKey(item)){
             System.out.println("--> " + item.getName() + " is removed.\n\n");
@@ -138,6 +159,10 @@ class shoppingCart{
         
     }
 
+
+    /** 
+       Calculates and return the total bill of the cart.
+    */
     public Double displayBill(){
         Double total = 0.0;
         for(Map.Entry<Item, Integer> entry : cart.entrySet()){
