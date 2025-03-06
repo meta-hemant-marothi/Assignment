@@ -6,10 +6,11 @@ import java.util.Scanner;
 public class shopping{
 
     public static void itemsMenu(ArrayList<Item> items){
-        System.out.println(String.format("%8s%15s%50s%15s","Item Id", "Item Name", "Item Desc", "Item Price"));
+        System.out.println("\n\n===============================================================================================");
+        System.out.println(String.format("|%-8s|%-15s|%-35s|%-15s|","Item Id", "Item Name", "Item Desc", "Item Price"));
         System.out.println("===============================================================================================");
         for(Item i : items){
-            System.out.println(String.format("%8d%15s%50s%15f",i.getId(), i.getName(), i.getDescription(), i.getPrice()));
+            System.out.println(String.format("|%-8d|%-15s|%-35s|%-15.2f|",i.getId(), i.getName(), i.getDescription(), i.getPrice()));
         }
     }
 
@@ -40,15 +41,10 @@ public class shopping{
         shoppingCart shop = new shoppingCart();
         boolean flag = true;
         while(flag){
-            System.out.print("\033[H\033[2J"); 
-            System.out.flush(); 
-
             operationsMenu();
             System.out.print("Enter Choice: ");
             int choice = sc.nextInt();
-            
-            System.out.print("\033[H\033[2J"); 
-            System.out.flush();
+
             switch(choice){
                 case 1: 
                     itemsMenu(items);
@@ -60,7 +56,7 @@ public class shopping{
                     break;
 
                 case 2:
-                    shop.displayCart();
+                    shop.displayQty();
                     break;
 
                 case 3:
@@ -80,7 +76,7 @@ public class shopping{
                     break;
                 
                 case 5:
-                    shop.displayCart();
+                    shop.displayQty();
                     System.out.println("Total Bill: " + shop.displayBill());
                     break;
 
@@ -91,7 +87,6 @@ public class shopping{
                 default: System.out.println("Choose Correct option.");
             }
             
-    
         }
     }
 }
@@ -104,9 +99,10 @@ class shoppingCart{
         System.out.println(item.getName() + "added to cart");
     }
 
-    public Integer displayQty(Item item){
-        System.out.println(cart.get(item));
-        return cart.get(item);
+    public void displayQty(){
+        for(Map.Entry<Item, Integer> entry : cart.entrySet()){
+            System.out.println(entry.getKey().getName()+"  " +entry.getValue());
+        }
     }
 
     public void updateQty(Item item,Integer quantity){
@@ -130,13 +126,7 @@ class shoppingCart{
             total += entry.getKey().getPrice() * entry.getValue();
         }
         return total;
-    }
-
-    public void displayCart(){
-        for(Map.Entry<Item, Integer> entry : cart.entrySet()){
-            System.out.println(entry.getKey().getName()+"  " +entry.getValue());
-        }
-    }
+    } 
 
 }
 class Item{
