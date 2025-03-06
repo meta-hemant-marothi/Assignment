@@ -29,10 +29,27 @@ public class shopping{
         System.out.println("#######################################");
     }
 
+    public static int getNumInput(Scanner sc, int min, int max){
+        //A Function to get a valid integer input in the given range.
+        int num=0;
+        while(true){
+            try{
+                num = sc.nextInt();
+                sc.nextLine();
+                if(num>=min && num<=max)return num;
+                else System.out.println("Enter a valid number between " + min + " & " + max);
+            }catch(Exception e){
+                System.out.println("Enter a valid number between " + min + " & " + max);
+                sc.nextLine();
+            }
+        }
+    }
+
     public static void main(String[] args){
 
         int item_id;
         int item_quantity;
+        int quantity_limit = 500;
         Scanner sc = new Scanner(System.in);
 
         // Items created in memory
@@ -55,22 +72,16 @@ public class shopping{
         while(flag){
             operationsMenu();
             System.out.print("Enter Your Choice Number: ");
-            int choice = sc.nextInt();
+            int choice = getNumInput(sc, 1, 6);
 
             // According to the customers choice, operations will be performed
             switch(choice){
                 case 1: 
                     itemsMenu(items);
-                    try {
-                        System.out.print("Enter the item ID You Want to add: ");
-                        item_id = sc.nextInt();
-                        System.out.print("Enter the Quantity of that item You Want to add: ");
-                        item_quantity = sc.nextInt();
-                    } catch (Exception e) {
-                        System.out.println(e);
-                        break;
-                    }
-                    
+                    System.out.print("Enter the item ID You Want to add: ");
+                    item_id = getNumInput(sc, 1, items.size());
+                    System.out.print("Enter the Quantity of that item You Want to add: ");
+                    item_quantity = getNumInput(sc, -1*quantity_limit, quantity_limit);
                     shop_cart.addToCart(items.get(item_id-1), item_quantity);
                     break;
 
@@ -80,27 +91,17 @@ public class shopping{
 
                 case 3:
                     itemsMenu(items);
-                    try {
-                        System.out.print("Enter the item ID You Want to update: ");
-                        item_id = sc.nextInt();
-                        System.out.print("Enter the Quantity by how much You Want to update: ");
-                        item_quantity = sc.nextInt();
-                    } catch (Exception e) {
-                        System.out.println(e);
-                        break;
-                    }
+                    System.out.print("Enter the item ID You Want to add: ");
+                    item_id = getNumInput(sc, 1, items.size());
+                    System.out.print("Enter the Quantity of that item You Want to add: ");
+                    item_quantity = getNumInput(sc, -1*quantity_limit, quantity_limit);
                     shop_cart.updateQty(items.get(item_id-1), item_quantity);
                     break;
 
                 case 4:
                     shop_cart.displayQty();
-                    try{
-                        System.out.print("Enter the item ID You Want to delete: ");
-                        item_id = sc.nextInt();
-                    }catch(Exception e){
-                        System.out.println(e);
-                        break;
-                    }
+                    System.out.print("Enter the item ID You Want to delete: ");
+                    item_id = getNumInput(sc, 1, items.size());
                     shop_cart.deleteItem(items.get(item_id-1));
                     break;
                 
