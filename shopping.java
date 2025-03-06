@@ -4,6 +4,25 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class shopping{
+
+    public static void itemsMenu(ArrayList<Item> items){
+        System.out.println(String.format("%8s%15s%50s%15s","Item Id", "Item Name", "Item Desc", "Item Price"));
+        System.out.println("===============================================================================================");
+        for(Item i : items){
+            System.out.println(String.format("%8d%15s%50s%15f",i.getId(), i.getName(), i.getDescription(), i.getPrice()));
+        }
+    }
+
+    public static void operationsMenu(){
+        System.out.println("#### Choose What Do You Want To Do ####");
+        System.out.println("1. Add Items to cart");
+        System.out.println("2. Display Quantity");
+        System.out.println("3. Update Quantity");
+        System.out.println("4. Delete Item");
+        System.out.println("5. Display Bill");
+        System.out.println("6. Exit");
+    }
+
     public static void main(String[] args){
         int id, quant;
         Scanner sc = new Scanner(System.in);
@@ -21,39 +40,31 @@ public class shopping{
         shoppingCart shop = new shoppingCart();
         boolean flag = true;
         while(flag){
-            System.out.println("#### Choose What Do You Want To Do ####");
-            System.out.println("1. Add Items to cart");
-            System.out.println("2. Display Quantity");
-            System.out.println("3. Update Quantity");
-            System.out.println("4. Delete Item");
-            System.out.println("5. Display Bill");
-            System.out.println("6. Exit");
+            System.out.print("\033[H\033[2J"); 
+            System.out.flush(); 
 
+            operationsMenu();
             System.out.print("Enter Choice: ");
             int choice = sc.nextInt();
             
+            System.out.print("\033[H\033[2J"); 
+            System.out.flush();
             switch(choice){
                 case 1: 
-                    System.out.println(String.format("%8s%15s%50s%15s","Item Id", "Item Name", "Item Desc", "Item Price"));
-                    System.out.println("===============================================================================================");
-                    for(Item i : items){
-                        System.out.println(String.format("%8d%15s%50s%15f",i.getId(), i.getName(), i.getDescription(), i.getPrice()));
-                    }
+                    itemsMenu(items);
                     System.out.print("Enter the item ID You Want to add: ");
                     id = sc.nextInt();
                     System.out.print("Enter the Quantity of that item You Want to add: ");
                     quant = sc.nextInt();
                     shop.addToCart(items.get(id-1), quant);
                     break;
+
                 case 2:
                     shop.displayCart();
                     break;
+
                 case 3:
-                    System.out.println(String.format("%8s%15s%50s%15s","Item Id", "Item Name", "Item Desc", "Item Price"));
-                    System.out.println("===============================================================================================");
-                    for(Item i : items){
-                        System.out.println(String.format("%8d%15s%50s%15f",i.getId(), i.getName(), i.getDescription(), i.getPrice()));
-                    }
+                    itemsMenu(items);
                     System.out.print("Enter the item ID You Want to update: ");
                     id = sc.nextInt();
                     System.out.print("Enter the Quantity by how much You Want to update: ");
@@ -62,11 +73,7 @@ public class shopping{
                     break;
 
                 case 4:
-                    System.out.println(String.format("%8s%15s%50s%15s","Item Id", "Item Name", "Item Desc", "Item Price"));
-                    System.out.println("===============================================================================================");
-                    for(Item i : items){
-                        System.out.println(String.format("%8d%15s%50s%15f",i.getId(), i.getName(), i.getDescription(), i.getPrice()));
-                    }
+                    itemsMenu(items);
                     System.out.print("Enter the item ID You Want to delete: ");
                     id = sc.nextInt();
                     shop.deleteItem(items.get(id-1));
@@ -80,10 +87,10 @@ public class shopping{
                 case 6:
                     flag = false;
                     break;
+                    
                 default: System.out.println("Choose Correct option.");
             }
-            System.out.print("\033[H\033[2J"); 
-            System.out.flush(); 
+            
     
         }
     }
@@ -96,10 +103,12 @@ class shoppingCart{
         cart.put(item, quantity);
         System.out.println(item.getName() + "added to cart");
     }
+
     public Integer displayQty(Item item){
         System.out.println(cart.get(item));
         return cart.get(item);
     }
+
     public void updateQty(Item item,Integer quantity){
         if(cart.getOrDefault(item, 0) + quantity >= 0){
             cart.put(item, cart.getOrDefault(item, 0) + quantity);
@@ -109,10 +118,12 @@ class shoppingCart{
             System.out.println("--> Insufficient Items To Update. Item Removed");
         }
     }
+
     public void deleteItem(Item item){
         System.out.println("removed");
         cart.remove(item);
     }
+
     public Double displayBill(){
         Double total = 0.0;
         for(Map.Entry<Item, Integer> entry : cart.entrySet()){
@@ -120,6 +131,7 @@ class shoppingCart{
         }
         return total;
     }
+
     public void displayCart(){
         for(Map.Entry<Item, Integer> entry : cart.entrySet()){
             System.out.println(entry.getKey().getName()+"  " +entry.getValue());
