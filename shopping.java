@@ -6,15 +6,18 @@ import java.util.Scanner;
 public class shopping{
 
     public static void itemsMenu(ArrayList<Item> items){
+        // A Menu of all the items present.
         System.out.println("\n\n===============================================================================================");
         System.out.println(String.format("|%-8s|%-15s|%-35s|%-15s|","Item Id", "Item Name", "Item Desc", "Item Price"));
         System.out.println("===============================================================================================");
         for(Item i : items){
             System.out.println(String.format("|%-8d|%-15s|%-35s|%-15.2f|",i.getId(), i.getName(), i.getDescription(), i.getPrice()));
         }
+        System.out.println("===============================================================================================");
     }
 
     public static void operationsMenu(){
+        // A Menu to list all operations that are faciliated by the program.
         System.out.println("#### Choose What Do You Want To Do ####");
         System.out.println("1. Add Items to cart");
         System.out.println("2. Display Quantity");
@@ -42,7 +45,7 @@ public class shopping{
         boolean flag = true;
         while(flag){
             operationsMenu();
-            System.out.print("Enter Choice: ");
+            System.out.print("Enter Your Choice Number: ");
             int choice = sc.nextInt();
 
             switch(choice){
@@ -77,7 +80,7 @@ public class shopping{
                 
                 case 5:
                     shop.displayQty();
-                    System.out.println("Total Bill: " + shop.displayBill());
+                    System.out.println("Total Bill for above items: " + shop.displayBill());
                     break;
 
                 case 6:
@@ -95,29 +98,45 @@ class shoppingCart{
     private Map<Item, Integer> cart = new HashMap<>();
     
     public void addToCart(Item item, Integer quantity){
+        if(cart.containsKey(item)){
+            System.out.println("--> Item already in Cart. Please Use Update Quantity Option");
+            return;
+        }
         cart.put(item, quantity);
-        System.out.println(item.getName() + " added to cart\n\n");
+        System.out.println("--> " + item.getName() + " added to cart\n\n");
     }
 
     public void displayQty(){
-        for(Map.Entry<Item, Integer> entry : cart.entrySet()){
-            System.out.println(entry.getKey().getName()+"  " +entry.getValue());
+        if(cart.isEmpty()){
+            System.out.println("--> Your Cart is Empty\n\n");
+            return;
         }
+        for(Map.Entry<Item, Integer> entry : cart.entrySet()){
+            System.out.println("=====================");
+            System.out.println("| " + entry.getKey().getName()+"  |  " +entry.getValue() + "   |");
+            System.out.println("=====================");
+        }
+        System.out.println("\n\n");
     }
 
     public void updateQty(Item item,Integer quantity){
         if(cart.getOrDefault(item, 0) + quantity >= 0){
             cart.put(item, cart.getOrDefault(item, 0) + quantity);
-            System.out.println("--> Items Updated Successfully");
+            System.out.println("--> Items Updated Successfully.\n\n");
         }else{
             cart.remove(item);
-            System.out.println("--> Insufficient Items To Update. Item Removed\n\n");
+            System.out.println("--> Insufficient Items To Update. Item Removed.\n\n");
         }
     }
 
     public void deleteItem(Item item){
-        System.out.println("removed");
-        cart.remove(item);
+        if(cart.containsKey(item)){
+            System.out.println("--> " + item.getName() + " is removed.\n\n");
+            cart.remove(item);
+        }else{
+            System.out.println("--> " + item.getName() + " is not in cart. \n\n");
+        }
+        
     }
 
     public Double displayBill(){
