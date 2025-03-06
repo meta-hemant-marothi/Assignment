@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 
-public class shopping{
+public class Shopping{
 
     public static void itemsMenu(ArrayList<Item> items){
         // A Menu of all the items present in the shop.
